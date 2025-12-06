@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- Global Settings -->
+    <settings>
+        <!-- DB snake_case ↔ Java camelCase -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- Log SQL to console -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!-- Type Aliases (scan all entity packages) -->
+    <typeAliases>
+        <package name="com.fpl.edu.shoeStore.auth.entity"/>
+        <package name="com.fpl.edu.shoeStore.user.entity"/>
+        <package name="com.fpl.edu.shoeStore.product.entity"/>
+        <package name="com.fpl.edu.shoeStore.order.entity"/>
+        <package name="com.fpl.edu.shoeStore.payment.entity"/>
+        <package name="com.fpl.edu.shoeStore.promotion.entity"/>
+        <package name="com.fpl.edu.shoeStore.shipment.entity"/>
+    </typeAliases>
+
+    <!-- Mappers -->
+    <mappers>
+        <!-- Explicit XML mappers -->
+        <mapper resource="mybatis/mapper/auth/UserAuthMapper.xml"/>
+        <mapper resource="mybatis/mapper/user/UserMapper.xml"/>
+        <mapper resource="mybatis/mapper/order/OrderMapper.xml"/>
+        <mapper resource="mybatis/mapper/shipment/ShipmentMapper.xml"/>
+        <mapper resource="mybatis/mapper/promotion/VoucherMapper.xml"/>
+
+        <!-- Annotation-based mappers -->
+        <package name="com.fpl.edu.shoeStore.auth.mapper"/>
+        <package name="com.fpl.edu.shoeStore.user.mapper"/>
+        <package name="com.fpl.edu.shoeStore.product.mapper"/>
+        <package name="com.fpl.edu.shoeStore.order.mapper"/>
+        <package name="com.fpl.edu.shoeStore.payment.mapper"/>
+        <package name="com.fpl.edu.shoeStore.promotion.mapper"/>
+        <package name="com.fpl.edu.shoeStore.shipment.mapper"/>
+    </mappers>
+</configuration>

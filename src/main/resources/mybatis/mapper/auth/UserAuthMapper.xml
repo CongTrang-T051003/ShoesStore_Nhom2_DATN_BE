@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fpl.edu.shoeStore.auth.mapper.UserAuthMapper">
+
+<resultMap id="UserAuthResultMap" type="com.fpl.edu.shoeStore.auth.entity.UserAuth">
+        <id property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="username" column="username"/>
+        <result property="roleName" column="role_name"/>
+        <result property="passwordHash" column="password_hash"/>
+        <result property="fullName" column="full_name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="findUserByUsername" resultMap="UserAuthResultMap" parameterType="string">
+        SELECT 
+            u.user_id,
+            u.role_id,
+            u.username,
+            r.role_name,
+            u.password_hash,
+            u.full_name,
+            u.email,
+            u.phone,
+            u.status,
+            u.created_at,
+            u.updated_at
+        FROM sys_user u
+        JOIN sys_role r ON u.role_id = r.role_id
+        WHERE u.username = #{username}
+    </select>
+
+    <select id="getRoleIdByUsername" resultType="java.lang.Integer">
+        SELECT role_id
+        FROM sys_user
+        WHERE username = #{username}
+          AND status = 'active'
+    </select>
+
+    <select id="existsByUsername" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM sys_user
+        WHERE username = #{username}
+    </select>
+
+    <select id="existsByEmail" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM sys_user
+        WHERE email = #{email}
+    </select>
+
+    <select id="existsByPhone" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM sys_user
+        WHERE phone = #{phone}
+    </select>
+
+    <insert id="insertUser" parameterType="com.fpl.edu.shoeStore.user.entity.User"
+            useGeneratedKeys="true" keyProperty="userId" keyColumn="user_id">
+        INSERT INTO sys_user (
+            role_id,
+            username,
+            password_hash,
+            full_name,
+            email,
+            phone,
+            status,
+            created_at,
+            updated_at
+        ) VALUES (
+            #{roleId},
+            #{username},
+            #{passwordHash},
+            #{fullName},
+            #{email},
+            #{phone},
+            #{status},
+            #{createdAt},
+            #{updatedAt}
+        )
+    </insert>
+
+</mapper>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/main-layout}">
+<head>
+    <title>Dashboard</title>
+    <th:block layout:fragment="page-css">
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    </th:block>
+</head>
+<body>
+    <section layout:fragment="content">
+        <!-- Dashboard Header -->
+        <div class="mb-4">
+            <h1 class="h3 fw-bold text-primary mb-2">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Tổng quan hệ thống
+            </h1>
+            <p class="text-muted">
+                Cập nhật lúc <span id="currentTime"></span>
+            </p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card card-primary">
+                <div class="card-icon">
+                    <i class="bi bi-cart-check-fill"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Tổng đơn hàng</div>
+                    <div class="card-value" id="totalOrders">
+                        <span class="loading"></span>
+                    </div>
+                    <div class="card-trend trend-up">
+                        <i class="bi bi-arrow-up"></i>
+                        <span>+12% từ tháng trước</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card card-success">
+                <div class="card-icon">
+                    <i class="bi bi-currency-dollar"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Doanh thu tháng</div>
+                    <div class="card-value" id="totalRevenue">
+                        <span class="loading"></span>
+                    </div>
+                    <div class="card-trend trend-up">
+                        <i class="bi bi-arrow-up"></i>
+                        <span>+8% từ tháng trước</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card card-warning">
+                <div class="card-icon">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Sản phẩm</div>
+                    <div class="card-value" id="totalProducts">
+                        <span class="loading"></span>
+                    </div>
+                    <div class="card-subtitle">
+                        <span id="lowStockProducts">0</span> sản phẩm sắp hết
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card card-danger">
+                <div class="card-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Khách hàng</div>
+                    <div class="card-value" id="totalUsers">
+                        <span class="loading"></span>
+                    </div>
+                    <div class="card-subtitle">
+                        <span id="newUsersThisMonth">0</span> người dùng mới tháng này
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-graph-up me-2"></i>
+                            Doanh thu theo tháng
+                        </h5>
+                        <select class="form-select form-select-sm" style="width: auto;" id="revenueYearSelect">
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                        </select>
+                    </div>
+                    <div class="card-body">
+                        <div id="revenueChart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-pie-chart me-2"></i>
+                            Sản phẩm bán chạy
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="topProductsChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Đơn hàng gần đây
+                        </h5>
+                        <a th:href="@{/admin/orders}" class="btn btn-sm btn-primary">
+                            Xem tất cả <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Mã đơn</th>
+                                        <th>Khách hàng</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentOrdersTable">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <th:block layout:fragment="page-scripts">
+        <script th:src="@{/admin/js/pages/dashboard.page.js}"></script>
+    </th:block>
+</body>
+</html>
