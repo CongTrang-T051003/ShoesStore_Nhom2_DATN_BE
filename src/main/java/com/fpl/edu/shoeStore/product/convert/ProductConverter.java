@@ -1,11 +1,11 @@
 package com.fpl.edu.shoeStore.product.convert;
 
-import com.fpl.edu.shoeStore.product.entity.Product;
 import com.fpl.edu.shoeStore.product.dto.request.ProductDtoRequest;
 import com.fpl.edu.shoeStore.product.dto.response.ProductDtoResponse;
+import com.fpl.edu.shoeStore.product.entity.Product;
 
 public class ProductConverter {
-    public Product toEntity(ProductDtoRequest dto) {
+    public static Product toEntity(ProductDtoRequest dto) {
         return Product.builder()
                 .categoryId(dto.getCategoryId())
                 .name(dto.getName())
@@ -16,7 +16,7 @@ public class ProductConverter {
                 .isActive(dto.getIsActive())
                 .build();
     }
-    public ProductDtoResponse toResponse(Product entity) {
+    public static ProductDtoResponse toResponse(Product entity) {
         return ProductDtoResponse.builder()
                 .productId(entity.getProductId())
                 .categoryId(entity.getCategoryId())
