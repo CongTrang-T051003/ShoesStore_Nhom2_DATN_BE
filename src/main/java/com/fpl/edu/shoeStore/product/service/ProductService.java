@@ -1,6 +1,6 @@
 package com.fpl.edu.shoeStore.product.service;
 
-import com.fpl.edu.shoeStore.common.PageResponse;
+import com.fpl.edu.shoeStore.common.handler.PageResponse;
 import com.fpl.edu.shoeStore.product.dto.request.ProductDtoRequest;
 import com.fpl.edu.shoeStore.product.dto.response.ProductDtoResponse;
 
